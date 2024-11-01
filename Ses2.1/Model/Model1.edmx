@@ -1,0 +1,286 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище ModelBus" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="avtobus">
+          <Key>
+            <PropertyRef Name="id_aytobus" />
+          </Key>
+          <Property Name="id_aytobus" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_voditela" Type="int" Nullable="false" />
+          <Property Name="id_marchrut" Type="int" Nullable="false" />
+          <Property Name="gosnomer" Type="nchar" MaxLength="3" />
+          <Property Name="marka" Type="nvarchar(max)" />
+          <Property Name="vmestimast" Type="nchar" MaxLength="2" />
+        </EntityType>
+        <EntityType Name="marchrut">
+          <Key>
+            <PropertyRef Name="id_marchrut" />
+          </Key>
+          <Property Name="id_marchrut" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_poezdki" Type="int" Nullable="false" />
+          <Property Name="nomer" Type="nchar" MaxLength="4" />
+          <Property Name="names" Type="nvarchar(max)" />
+          <Property Name="nachalnaia_ostanovka" Type="nvarchar" MaxLength="100" />
+          <Property Name="konecnaia_ostanovka" Type="nvarchar" MaxLength="100" />
+          <Property Name="vipolnena_marshrut" Type="nvarchar" MaxLength="3" />
+        </EntityType>
+        <EntityType Name="poezdki">
+          <Key>
+            <PropertyRef Name="id_poezdki" />
+          </Key>
+          <Property Name="id_poezdki" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="vremu_nahala" Type="time" Precision="7" />
+          <Property Name="vremu_okonhana" Type="time" Precision="7" />
+          <Property Name="data_poezdki" Type="date" />
+          <Property Name="prodolchitelnost" Type="nchar" MaxLength="2" />
+        </EntityType>
+        <EntityType Name="voditela">
+          <Key>
+            <PropertyRef Name="id_voditela" />
+          </Key>
+          <Property Name="id_voditela" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FIO" Type="nvarchar" MaxLength="100" />
+          <Property Name="addres" Type="nvarchar" MaxLength="100" />
+          <Property Name="number" Type="nchar" MaxLength="11" />
+        </EntityType>
+        <Association Name="FK__avtobus__id_marc__515009E6">
+          <End Role="marchrut" Type="Self.marchrut" Multiplicity="1" />
+          <End Role="avtobus" Type="Self.avtobus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="marchrut">
+              <PropertyRef Name="id_marchrut" />
+            </Principal>
+            <Dependent Role="avtobus">
+              <PropertyRef Name="id_marchrut" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__avtobus__id_vodi__505BE5AD">
+          <End Role="voditela" Type="Self.voditela" Multiplicity="1" />
+          <End Role="avtobus" Type="Self.avtobus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="voditela">
+              <PropertyRef Name="id_voditela" />
+            </Principal>
+            <Dependent Role="avtobus">
+              <PropertyRef Name="id_voditela" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__marchrut__id_poe__4D7F7902">
+          <End Role="poezdki" Type="Self.poezdki" Multiplicity="1" />
+          <End Role="marchrut" Type="Self.marchrut" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="poezdki">
+              <PropertyRef Name="id_poezdki" />
+            </Principal>
+            <Dependent Role="marchrut">
+              <PropertyRef Name="id_poezdki" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище ModelBusContainer">
+          <EntitySet Name="avtobus" EntityType="Self.avtobus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="marchrut" EntityType="Self.marchrut" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="poezdki" EntityType="Self.poezdki" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="voditela" EntityType="Self.voditela" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__avtobus__id_marc__515009E6" Association="Self.FK__avtobus__id_marc__515009E6">
+            <End Role="marchrut" EntitySet="marchrut" />
+            <End Role="avtobus" EntitySet="avtobus" />
+          </AssociationSet>
+          <AssociationSet Name="FK__avtobus__id_vodi__505BE5AD" Association="Self.FK__avtobus__id_vodi__505BE5AD">
+            <End Role="voditela" EntitySet="voditela" />
+            <End Role="avtobus" EntitySet="avtobus" />
+          </AssociationSet>
+          <AssociationSet Name="FK__marchrut__id_poe__4D7F7902" Association="Self.FK__marchrut__id_poe__4D7F7902">
+            <End Role="poezdki" EntitySet="poezdki" />
+            <End Role="marchrut" EntitySet="marchrut" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ModelBus" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="avtobus">
+          <Key>
+            <PropertyRef Name="id_aytobus" />
+          </Key>
+          <Property Name="id_aytobus" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_voditela" Type="Int32" Nullable="false" />
+          <Property Name="id_marchrut" Type="Int32" Nullable="false" />
+          <Property Name="gosnomer" Type="String" MaxLength="3" FixedLength="true" Unicode="true" />
+          <Property Name="marka" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="vmestimast" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="marchrut" Relationship="Self.FK__avtobus__id_marc__515009E6" FromRole="avtobus" ToRole="marchrut" />
+          <NavigationProperty Name="voditela" Relationship="Self.FK__avtobus__id_vodi__505BE5AD" FromRole="avtobus" ToRole="voditela" />
+        </EntityType>
+        <EntityType Name="marchrut">
+          <Key>
+            <PropertyRef Name="id_marchrut" />
+          </Key>
+          <Property Name="id_marchrut" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_poezdki" Type="Int32" Nullable="false" />
+          <Property Name="nomer" Type="String" MaxLength="4" FixedLength="true" Unicode="true" />
+          <Property Name="names" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="nachalnaia_ostanovka" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="konecnaia_ostanovka" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="vipolnena_marshrut" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="avtobus" Relationship="Self.FK__avtobus__id_marc__515009E6" FromRole="marchrut" ToRole="avtobus" />
+          <NavigationProperty Name="poezdki" Relationship="Self.FK__marchrut__id_poe__4D7F7902" FromRole="marchrut" ToRole="poezdki" />
+        </EntityType>
+        <EntityType Name="poezdki">
+          <Key>
+            <PropertyRef Name="id_poezdki" />
+          </Key>
+          <Property Name="id_poezdki" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="vremu_nahala" Type="Time" Precision="7" />
+          <Property Name="vremu_okonhana" Type="Time" Precision="7" />
+          <Property Name="data_poezdki" Type="DateTime" Precision="0" />
+          <Property Name="prodolchitelnost" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="marchrut" Relationship="Self.FK__marchrut__id_poe__4D7F7902" FromRole="poezdki" ToRole="marchrut" />
+        </EntityType>
+        <EntityType Name="voditela">
+          <Key>
+            <PropertyRef Name="id_voditela" />
+          </Key>
+          <Property Name="id_voditela" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FIO" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="addres" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="number" Type="String" MaxLength="11" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="avtobus" Relationship="Self.FK__avtobus__id_vodi__505BE5AD" FromRole="voditela" ToRole="avtobus" />
+        </EntityType>
+        <Association Name="FK__avtobus__id_marc__515009E6">
+          <End Role="marchrut" Type="Self.marchrut" Multiplicity="1" />
+          <End Role="avtobus" Type="Self.avtobus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="marchrut">
+              <PropertyRef Name="id_marchrut" />
+            </Principal>
+            <Dependent Role="avtobus">
+              <PropertyRef Name="id_marchrut" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__avtobus__id_vodi__505BE5AD">
+          <End Role="voditela" Type="Self.voditela" Multiplicity="1" />
+          <End Role="avtobus" Type="Self.avtobus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="voditela">
+              <PropertyRef Name="id_voditela" />
+            </Principal>
+            <Dependent Role="avtobus">
+              <PropertyRef Name="id_voditela" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__marchrut__id_poe__4D7F7902">
+          <End Role="poezdki" Type="Self.poezdki" Multiplicity="1" />
+          <End Role="marchrut" Type="Self.marchrut" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="poezdki">
+              <PropertyRef Name="id_poezdki" />
+            </Principal>
+            <Dependent Role="marchrut">
+              <PropertyRef Name="id_poezdki" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="user17Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="avtobus" EntityType="Self.avtobus" />
+          <EntitySet Name="marchrut" EntityType="Self.marchrut" />
+          <EntitySet Name="poezdki" EntityType="Self.poezdki" />
+          <EntitySet Name="voditela" EntityType="Self.voditela" />
+          <AssociationSet Name="FK__avtobus__id_marc__515009E6" Association="Self.FK__avtobus__id_marc__515009E6">
+            <End Role="marchrut" EntitySet="marchrut" />
+            <End Role="avtobus" EntitySet="avtobus" />
+          </AssociationSet>
+          <AssociationSet Name="FK__avtobus__id_vodi__505BE5AD" Association="Self.FK__avtobus__id_vodi__505BE5AD">
+            <End Role="voditela" EntitySet="voditela" />
+            <End Role="avtobus" EntitySet="avtobus" />
+          </AssociationSet>
+          <AssociationSet Name="FK__marchrut__id_poe__4D7F7902" Association="Self.FK__marchrut__id_poe__4D7F7902">
+            <End Role="poezdki" EntitySet="poezdki" />
+            <End Role="marchrut" EntitySet="marchrut" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище ModelBusContainer" CdmEntityContainer="user17Entities">
+          <EntitySetMapping Name="avtobus">
+            <EntityTypeMapping TypeName="ModelBus.avtobus">
+              <MappingFragment StoreEntitySet="avtobus">
+                <ScalarProperty Name="id_aytobus" ColumnName="id_aytobus" />
+                <ScalarProperty Name="id_voditela" ColumnName="id_voditela" />
+                <ScalarProperty Name="id_marchrut" ColumnName="id_marchrut" />
+                <ScalarProperty Name="gosnomer" ColumnName="gosnomer" />
+                <ScalarProperty Name="marka" ColumnName="marka" />
+                <ScalarProperty Name="vmestimast" ColumnName="vmestimast" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="marchrut">
+            <EntityTypeMapping TypeName="ModelBus.marchrut">
+              <MappingFragment StoreEntitySet="marchrut">
+                <ScalarProperty Name="id_marchrut" ColumnName="id_marchrut" />
+                <ScalarProperty Name="id_poezdki" ColumnName="id_poezdki" />
+                <ScalarProperty Name="nomer" ColumnName="nomer" />
+                <ScalarProperty Name="names" ColumnName="names" />
+                <ScalarProperty Name="nachalnaia_ostanovka" ColumnName="nachalnaia_ostanovka" />
+                <ScalarProperty Name="konecnaia_ostanovka" ColumnName="konecnaia_ostanovka" />
+                <ScalarProperty Name="vipolnena_marshrut" ColumnName="vipolnena_marshrut" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="poezdki">
+            <EntityTypeMapping TypeName="ModelBus.poezdki">
+              <MappingFragment StoreEntitySet="poezdki">
+                <ScalarProperty Name="id_poezdki" ColumnName="id_poezdki" />
+                <ScalarProperty Name="vremu_nahala" ColumnName="vremu_nahala" />
+                <ScalarProperty Name="vremu_okonhana" ColumnName="vremu_okonhana" />
+                <ScalarProperty Name="data_poezdki" ColumnName="data_poezdki" />
+                <ScalarProperty Name="prodolchitelnost" ColumnName="prodolchitelnost" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="voditela">
+            <EntityTypeMapping TypeName="ModelBus.voditela">
+              <MappingFragment StoreEntitySet="voditela">
+                <ScalarProperty Name="id_voditela" ColumnName="id_voditela" />
+                <ScalarProperty Name="FIO" ColumnName="FIO" />
+                <ScalarProperty Name="addres" ColumnName="addres" />
+                <ScalarProperty Name="number" ColumnName="number" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
